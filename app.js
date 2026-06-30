@@ -1502,6 +1502,10 @@ function parseMarkdownToHtml(md) {
     html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
     html = html.replace(/^#### (.*?)$/gm, '<h4>$1</h4>');
 
+    // Replace bullet points (unordered lists starting with - or *)
+    html = html.replace(/^\s*[-*]\s+(.*?)$/gm, '<li>$1</li>');
+    html = html.replace(/(<li>.*?<\/li>)+/gs, '<ul>$&</ul>');
+
     // Replace bold text
     html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     
@@ -1510,10 +1514,6 @@ function parseMarkdownToHtml(md) {
 
     // Compile Markdown tables into HTML tables
     html = compileMarkdownTables(html);
-
-    // Replace bullet points (unordered lists)
-    html = html.replace(/^\s*-\s+(.*?)$/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.*?<\/li>)+/gs, '<ul>$&</ul>');
     
     // Compile line breaks
     html = html.split(/\n\n+/).map(para => {
