@@ -382,7 +382,13 @@ const state = {
     outScopeItems: [],
     drafts: [],
     currentDraftId: null,
-    apiKey: localStorage.getItem("pid_gemini_api_key") || (window.CONFIG_API_KEY || ""),
+    apiKey: (function() {
+        let key = localStorage.getItem("pid_gemini_api_key");
+        if (!key || key === "null" || key === "undefined" || key.trim() === "") {
+            return window.CONFIG_API_KEY || "";
+        }
+        return key;
+    })(),
     aiModel: "gemini-2.5-flash"
 };
 
@@ -467,7 +473,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Load persistent API configurations
 function loadSettings() {
-    state.apiKey = localStorage.getItem("pid_gemini_api_key") || (window.CONFIG_API_KEY || "");
+    let key = localStorage.getItem("pid_gemini_api_key");
+    if (!key || key === "null" || key === "undefined" || key.trim() === "") {
+        key = window.CONFIG_API_KEY || "";
+    }
+    state.apiKey = key;
     state.aiModel = localStorage.getItem("pid_gemini_model") || "gemini-2.5-flash";
     
     if (selectors.inputApiKey) selectors.inputApiKey.value = state.apiKey;
