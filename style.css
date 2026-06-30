@@ -318,17 +318,13 @@ a:hover {
     cursor: pointer;
     user-select: none;
 }
-.logo-icon {
-    font-size: 1.6rem;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: spinSparkle 6s linear infinite;
+.logo-svg {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform var(--transition-normal);
 }
-
-@keyframes spinSparkle {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.1) rotate(10deg); }
+.logo-area:hover .logo-svg {
+    transform: rotate(-6deg) scale(1.1);
 }
 
 .logo-title {
