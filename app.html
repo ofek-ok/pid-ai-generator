@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PID AI Generator - סביבת עבודה</title>
+    <!-- Google Fonts for Hebrew (Heebo/Rubik) and English (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-area" id="btn-home">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">PID.AI</span>
+                    <span class="logo-badge">PRO</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn btn-icon" id="btn-toggle-lang" title="Toggle Language / שינוי שפה">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="btn-text">EN</span>
+                </button>
+                <button class="btn btn-icon" id="btn-toggle-theme" title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="btn btn-outline" id="btn-settings-trigger" title="Settings / הגדרות ה-AI">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span class="btn-text" data-i18n="nav_settings">הגדרות API</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- APP WORKSPACE -->
+    <main id="view-app" class="active">
+        <div class="app-layout">
+            
+            <!-- Dashboard / History Panel -->
+            <section class="app-panel" id="panel-dashboard">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span data-i18n="dash_title">לוח הבקרה שלי</span>
+                    </h2>
+                    <button class="btn btn-primary" id="btn-new-pid">
+                        <i class="fa-solid fa-plus"></i>
+                        <span data-i18n="dash_new_btn">מסמך ייזום חדש</span>
+                    </button>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Statistics Cards -->
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <span class="stat-label" data-i18n="dash_stat_drafts">טיוטות פתוחות</span>
+                            <span class="stat-val" id="stat-count-drafts">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label" data-i18n="dash_stat_completed">מסמכים מוכנים</span>
+                            <span class="stat-val" id="stat-count-completed">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label" data-i18n="dash_stat_key">מצב מפתח API</span>
+                            <span class="stat-val text-warning" id="stat-api-status"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="dash_stat_key_missing">חסר מפתח</span></span>
+                        </div>
+                    </div>
+
+                    <!-- History List -->
+                    <div class="card history-card-container">
+                        <h3 class="card-title" data-i18n="dash_history_title"><i class="fa-solid fa-clock-rotate-left"></i> מסמכים אחרונים</h3>
+                        <div class="history-list-wrapper">
+                            <div class="history-empty" id="history-empty-state">
+                                <i class="fa-solid fa-folder-open empty-icon"></i>
+                                <p data-i18n="dash_history_empty">עדיין לא יצרת אף מסמך ייזום פרויקט. לחץ על כפתור "מסמך ייזום חדש" כדי להתחיל!</p>
+                            </div>
+                            <table class="history-table hidden" id="history-table-element">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="table_project_name">שם הפרויקט</th>
+                                        <th data-i18n="table_date">תאריך עדכון</th>
+                                        <th data-i18n="table_priority">עדיפות</th>
+                                        <th data-i18n="table_status">סטטוס</th>
+                                        <th style="width: 120px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-table-body">
+                                    <!-- Dynamic rows will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wizard Panel (Form Steps 1-5) -->
+            <section class="app-panel hidden" id="panel-wizard">
+                <!-- Wizard Navigation Tracker -->
+                <div class="wizard-tracker">
+                    <div class="tracker-step active" data-step="1">
+                        <span class="step-badge">1</span>
+                        <span class="step-name" data-i18n="wstep_1">פרטי פרויקט</span>
+                    </div>
+                    <div class="tracker-line"></div>
+                    <div class="tracker-step" data-step="2">
+                        <span class="step-badge">2</span>
+                        <span class="step-name" data-i18n="wstep_2">רקע ומצב קיים</span>
+                    </div>
+                    <div class="tracker-line"></div>
+                    <div class="tracker-step" data-step="3">
+                        <span class="step-badge">3</span>
+                        <span class="step-name" data-i18n="wstep_3">מטרות ותרומה</span>
+                    </div>
+                    <div class="tracker-line"></div>
+                    <div class="tracker-step" data-step="4">
+                        <span class="step-badge">4</span>
+                        <span class="step-name" data-i18n="wstep_4">תכולות</span>
+                    </div>
+                    <div class="tracker-line"></div>
+                    <div class="tracker-step" data-step="5">
+                        <span class="step-badge">5</span>
+                        <span class="step-name" data-i18n="wstep_5">הערכת משאבים</span>
+                    </div>
+                </div>
+
+                <div class="wizard-content-card card">
+                    <form id="pid-wizard-form" autocomplete="off" onsubmit="event.preventDefault();">
+                        
+                        <!-- ==================== STEP 1: PROJECT DETAILS ==================== -->
+                        <div class="wizard-step-form active" data-step="1">
+                            <h3 class="step-title" data-i18n="s1_title"><i class="fa-solid fa-circle-info text-primary"></i> 1. פרטי הפרויקט הכלליים</h3>
+                            <p class="step-description" data-i18n="s1_desc">הזן את פרטי הזיהוי הבסיסיים של הפרויקט. נתונים אלו יופיעו בראש מסמך הייזום.</p>
+                            
+                            <div class="form-row">
+                                <div class="form-group flex-2">
+                                    <label class="required-label" for="input-proj-name" data-i18n="s1_lbl_name">שם הפרויקט</label>
+                                    <input type="text" id="input-proj-name" placeholder="לדוגמה: שדרוג מערכת הליבה הפיננסית" required>
+                                    <span class="field-help" data-i18n="s1_hlp_name">שם קצר, ברור וממוקד לפרויקט.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required-label" for="input-init-date" data-i18n="s1_lbl_date">תאריך ייזום</label>
+                                    <input type="date" id="input-init-date" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="required-label" for="input-business-owner" data-i18n="s1_lbl_owner">Owner עסקי (מוביל עסקי)</label>
+                                    <input type="text" id="input-business-owner" placeholder="שם, תפקיד, אגף (למשל: משה כהן, מנהל פיתוח עסקי)" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required-label" for="input-project-manager" data-i18n="s1_lbl_pm">מנהל הפרויקט</label>
+                                    <input type="text" id="input-project-manager" placeholder="שם מנהל הפרויקט" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="required-label" for="input-domain" data-i18n="s1_lbl_domain">תחום פרויקט</label>
+                                    <input type="text" id="input-domain" placeholder="לדוגמה: מערכות מידע, דיגיטל, רגולציה" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required-label" for="input-priority" data-i18n="s1_lbl_priority">רמת עדיפות מבוקשת</label>
+                                    <select id="input-priority" required>
+                                        <option value="גבוהה" selected data-i18n="opt_high">גבוהה</option>
+                                        <option value="קריטית" data-i18n="opt_critical">קריטית</option>
+                                        <option value="בינונית" data-i18n="opt_medium">בינונית</option>
+                                        <option value="נמוכה" data-i18n="opt_low">נמוכה</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ==================== STEP 2: BACKGROUND & CURRENT STATE ==================== -->
+                        <div class="wizard-step-form" data-step="2">
+                            <h3 class="step-title" data-i18n="s2_title"><i class="fa-solid fa-align-left text-primary"></i> 2. רקע ומצב קיים</h3>
+                            <p class="step-description" data-i18n="s2_desc">תאר את המציאות הנוכחית שמתוכה נולד הפרויקט. ה-AI ישתמש בזה כדי לנתח פערים ולהציע פתרונות.</p>
+                            
+                            <div class="form-group">
+                                <label class="required-label" for="input-current-state" data-i18n="s2_lbl_state">2.1 תיאור מצב נוכחי</label>
+                                <textarea id="input-current-state" rows="3" placeholder="איך התהליך עובד היום בפועל? שלבים עיקריים, זרימה, אילו מערכות/דוחות משתמשים כיום..." required></textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="required-label" for="input-affected-audiences" data-i18n="s2_lbl_audiences">2.2 אוכלוסיות מושפעות</label>
+                                    <input type="text" id="input-affected-audiences" placeholder="אילו עובדים, צוותים, לקוחות או סוכנים מושפעים מהמצב הקיים?" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required-label" for="input-existing-workflows" data-i18n="s2_lbl_workflows">2.3 תהליכי עבודה קיימים</label>
+                                    <input type="text" id="input-existing-workflows" placeholder="תיאור קצר ברמה גבוהה של התהליכים הרלוונטיים הנוכחיים" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="required-label" for="input-pain-points" data-i18n="s2_lbl_pains">2.4 תיאור כאבים עסקיים עיקריים</label>
+                                <textarea id="input-pain-points" rows="3" placeholder="מה לא עובד טוב היום? אילו טעויות, עיכובים או חסמים נוצרים שמפריעים לעבודה?" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="input-volumes" data-i18n="s2_lbl_volumes">2.5 נפחי אירועים/פניות (אופציונלי)</label>
+                                <input type="text" id="input-volumes" placeholder="כמה פעמים הבעיה מתרחשת (בחודש/רבעון)? כמה זמן או משאבים זה גוזל? הערכה כספית.">
+                            </div>
+                        </div>
+
+                        <!-- ==================== STEP 3: BUSINESS GOALS & VALUE ==================== -->
+                        <div class="wizard-step-form" data-step="3">
+                            <h3 class="step-title" data-i18n="s3_title"><i class="fa-solid fa-bullseye text-primary"></i> 3. מטרות עסקיות ותרומה</h3>
+                            <p class="step-description" data-i18n="s3_desc">נגדיר מה הפרויקט מנסה להשיג ולאן אנו שואפים להגיע.</p>
+                            
+                            <!-- Interactive Reason for Being sentence builder -->
+                            <div class="sentence-builder-card">
+                                <h4 class="sentence-builder-title" data-i18n="s3_builder_title"><i class="fa-solid fa-pencil"></i> 3.1 בונה "משפט הקיום" של הפרויקט</h4>
+                                <p class="sentence-builder-instruction" data-i18n="s3_builder_desc">השלם את המילים בתיבות כדי ליצור משפט קיום מדויק עבור ה-AI:</p>
+                                
+                                <div class="sentence-blocks-container">
+                                    <span class="sentence-static" data-i18n="s3_b_1">משנים את</span>
+                                    <input type="text" class="sentence-input" id="input-sentence-current" placeholder="המצב הנוכחי/הקושי" style="width: 180px;" required>
+                                    <span class="sentence-static" data-i18n="s3_b_2">ל־</span>
+                                    <input type="text" class="sentence-input" id="input-sentence-target" placeholder="המצב הרצוי והפתרון" style="width: 180px;" required>
+                                    <span class="sentence-static" data-i18n="s3_b_3">עבור</span>
+                                    <input type="text" class="sentence-input" id="input-sentence-who" placeholder="קהל היעד / המשתמש" style="width: 140px;" required>
+                                    <span class="sentence-static" data-i18n="s3_b_4">באמצעות</span>
+                                    <input type="text" class="sentence-input" id="input-sentence-how" placeholder="דרך המימוש הטכנולוגית" style="width: 160px;" required>
+                                    <span class="sentence-static" data-i18n="s3_b_5">כדי להשיג</span>
+                                    <input type="text" class="sentence-input" id="input-sentence-why" placeholder="הערך המרכזי והלמה" style="width: 180px;" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label class="required-label" for="input-goals" data-i18n="s3_lbl_goals">3.2 הגדרת מטרות עסקיות</label>
+                                <textarea id="input-goals" rows="2" placeholder="מה רוצים להשיג? הגדר מטרות ברורות ומדידות במידת האפשר..." required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="required-label" for="input-benefits" data-i18n="s3_lbl_benefits">3.3 תרומה עסקית וצפי תועלת</label>
+                                <textarea id="input-benefits" rows="2" placeholder="תיאור תועלת עסקית ישירה; צפי הכנסות, שיפור שירות, צמצום עלויות, ייעול משאבים וכד'..." required></textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="required-label" for="input-deadline" data-i18n="s3_lbl_deadline">3.4 דדליין עסקי / רגולטורי</label>
+                                    <input type="text" id="input-deadline" placeholder="האם קיים תאריך יעד מחייב? מהן ההשלכות של אי עמידה ביעד?" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required-label" for="input-justification" data-i18n="s3_lbl_just">3.5 הצדקת הפרויקט (למה עכשיו?)</label>
+                                    <input type="text" id="input-justification" placeholder="למה זה מצדיק פרויקט נפרד (היקף, מערכות חוצות, רגולציה דחופה וכו')?" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ==================== STEP 4: SCOPE ==================== -->
+                        <div class="wizard-step-form" data-step="4">
+                            <h3 class="step-title" data-i18n="s4_title"><i class="fa-solid fa-compress text-primary"></i> 4. תכולת הפרויקט (Scope)</h3>
+                            <p class="step-description" data-i18n="s4_desc">הגדר במדויק מה יהיה כלול בפרויקט ומה יוחרג ממנו באופן מכוון כדי למנוע זליגת תכולה.</p>
+                            
+                            <div class="scope-columns">
+                                <!-- IN SCOPE -->
+                                <div class="scope-col card">
+                                    <h4 class="scope-header text-success">
+                                        <i class="fa-solid fa-circle-plus"></i>
+                                        <span data-i18n="s4_in_title">כלול בפרויקט (IN SCOPE)</span>
+                                    </h4>
+                                    <div class="dynamic-list-builder" id="list-in-scope">
+                                        <div class="list-items-container">
+                                            <!-- Dynamic items go here -->
+                                        </div>
+                                        <div class="list-builder-input-row">
+                                            <input type="text" class="list-builder-input" placeholder="הוסף סעיף תכולה חדש..." id="input-add-in-scope">
+                                            <button class="btn btn-secondary btn-icon-only" type="button" id="btn-add-in-scope" title="Add item">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- OUT OF SCOPE -->
+                                <div class="scope-col card">
+                                    <h4 class="scope-header text-danger">
+                                        <i class="fa-solid fa-circle-minus"></i>
+                                        <span data-i18n="s4_out_title">מחוץ לתכולה (OUT OF SCOPE)</span>
+                                    </h4>
+                                    <div class="dynamic-list-builder" id="list-out-scope">
+                                        <div class="list-items-container">
+                                            <!-- Dynamic items go here -->
+                                        </div>
+                                        <div class="list-builder-input-row">
+                                            <input type="text" class="list-builder-input" placeholder="הוסף סעיף החרגה חדש..." id="input-add-out-scope">
+                                            <button class="btn btn-secondary btn-icon-only" type="button" id="btn-add-out-scope" title="Add item">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ==================== STEP 5: RESOURCE ESTIMATE ==================== -->
+                        <div class="wizard-step-form" data-step="5">
+                            <h3 class="step-title" data-i18n="s5_title"><i class="fa-solid fa-users-gear text-primary"></i> 5. הערכת משאבים</h3>
+                            <p class="step-description" data-i18n="s5_desc">הזן את הערכות המשאבים הראשוניות שלך. ה-AI ישתמש בהן כדי לבנות מטריצת RACI, להמליץ על מחזיקי עניין ולחשב תרחישים.</p>
+                            
+                            <h4 class="resource-section-title" data-i18n="s5_sub_1">5.1 כוח אדם פנימי - בתוך הצוות (הערכת שעות)</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="input-hours-pm" data-i18n="s5_lbl_pm_hrs">מנהל פרויקט (שעות)</label>
+                                    <input type="number" id="input-hours-pm" min="0" placeholder="לדוגמה: 120" value="80">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-hours-analyst" data-i18n="s5_lbl_analyst_hrs">מנתח מערכות (שעות)</label>
+                                    <input type="number" id="input-hours-analyst" min="0" placeholder="לדוגמה: 100" value="60">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-hours-qa" data-i18n="s5_lbl_qa_hrs">בודקים / QA (שעות)</label>
+                                    <input type="number" id="input-hours-qa" min="0" placeholder="לדוגמה: 80" value="50">
+                                </div>
+                            </div>
+
+                            <h4 class="resource-section-title" data-i18n="s5_sub_2">5.2 כוח אדם פנימי - מחוץ לצוות (הערכת שעות)</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="input-hours-dev" data-i18n="s5_lbl_dev_hrs">צוותי פיתוח חיצוניים לצוות (שעות)</label>
+                                    <input type="number" id="input-hours-dev" min="0" placeholder="לדוגמה: 300" value="200">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-hours-infra" data-i18n="s5_lbl_infra_hrs">תשתיות ותקשורת (שעות)</label>
+                                    <input type="number" id="input-hours-infra" min="0" placeholder="לדוגמה: 40" value="20">
+                                </div>
+                            </div>
+
+                            <h4 class="resource-section-title" data-i18n="s5_sub_3">5.3 ספקים חיצוניים ורישיונות (עלויות מוערכות)</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="input-cost-external" data-i18n="s5_lbl_ext_cost">עלויות רכש, רישוי וספקים חיצוניים</label>
+                                    <input type="text" id="input-cost-external" placeholder="לדוגמה: 50,000 ש״ח או $15,000" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Wizard Actions Footer -->
+                <div class="wizard-footer">
+                    <button class="btn btn-secondary" id="btn-wizard-back" style="visibility: hidden;">
+                        <i class="fa-solid fa-chevron-right icon-right"></i>
+                        <span data-i18n="wiz_btn_prev">הקודם</span>
+                    </button>
+                    <button class="btn btn-outline-danger" id="btn-wizard-cancel" data-i18n="wiz_btn_cancel">ביטול וחזרה</button>
+                    <button class="btn btn-primary" id="btn-wizard-next">
+                        <span data-i18n="wiz_btn_next">הבא</span>
+                        <i class="fa-solid fa-chevron-left icon-left"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Loading & Processing View -->
+            <section class="app-panel hidden" id="panel-processing">
+                <div class="processing-container card">
+                    <div class="ai-brain-animation">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-ring-inner"></div>
+                        <i class="fa-solid fa-wand-magic-sparkles brain-sparkle"></i>
+                    </div>
+                    <h2 class="processing-title" data-i18n="proc_title">ה-AI יוצר את מסמך הייזום שלך...</h2>
+                    <p class="processing-subtitle" data-i18n="proc_subtitle">אנחנו מנסחים את הקלטים שלך, מעריכים סיכונים, מתכננים לוחות זמנים ומפרטים Stakeholders.</p>
+                    
+                    <div class="loading-progress-bar">
+                        <div class="loading-progress-fill" id="loading-progress-bar-fill"></div>
+                    </div>
+
+                    <div class="processing-steps-list">
+                        <div class="proc-step active" id="pstep-1">
+                            <span class="proc-bullet"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+                            <span class="proc-text" data-i18n="proc_s1">מנתח ומעבד את נתוני הפרויקט...</span>
+                        </div>
+                        <div class="proc-step" id="pstep-2">
+                            <span class="proc-bullet"><i class="fa-solid fa-circle"></i></span>
+                            <span class="proc-text" data-i18n="proc_s2">מנסח את סעיפי הרקע, המצב הקיים והמטרות מחדש...</span>
+                        </div>
+                        <div class="proc-step" id="pstep-3">
+                            <span class="proc-bullet"><i class="fa-solid fa-circle"></i></span>
+                            <span class="proc-text" data-i18n="proc_s3">מחשב לוחות זמנים ומציע אבני דרך (סעיף 6)...</span>
+                        </div>
+                        <div class="proc-step" id="pstep-4">
+                            <span class="proc-bullet"><i class="fa-solid fa-circle"></i></span>
+                            <span class="proc-text" data-i18n="proc_s4">מזהה בעלי עניין (Stakeholders) פנימיים וטכנולוגיים (סעיף 7)...</span>
+                        </div>
+                        <div class="proc-step" id="pstep-5">
+                            <span class="proc-bullet"><i class="fa-solid fa-circle"></i></span>
+                            <span class="proc-text" data-i18n="proc_s5">מגבש קונספט פתרון ראשוני ואלטרנטיבות (סעיף 8)...</span>
+                        </div>
+                        <div class="proc-step" id="pstep-6">
+                            <span class="proc-bullet"><i class="fa-solid fa-circle"></i></span>
+                            <span class="proc-text" data-i18n="proc_s6">ממפה סיכונים מובילים ומציע מטריצת RACI (סעיפים 9-10)...</span>
+                        </div>
+                        <div class="proc-step" id="pstep-7">
+                            <span class="proc-bullet"><i class="fa-solid fa-circle"></i></span>
+                            <span class="proc-text" data-i18n="proc_s7">מגדיר מדדי הצלחה (KPIs) ואת טבלאות האישור (סעיפים 11-12)...</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Editor & Document Preview Workspace -->
+            <section class="app-panel hidden" id="panel-editor">
+                <div class="editor-workspace-header">
+                    <div class="workspace-meta">
+                        <button class="btn btn-link btn-icon-only" id="btn-editor-back" title="Back to Dashboard">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <h2 class="workspace-title" id="editor-project-title">שם פרויקט זמני</h2>
+                        <span class="document-badge" id="editor-project-badge">עריכה במצב חי</span>
+                    </div>
+                    <div class="workspace-actions">
+                        <button class="btn btn-outline" id="btn-edit-inputs">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span data-i18n="edit_btn_wizard">חזור לעריכת השאלון</span>
+                        </button>
+                        <button class="btn btn-outline" id="btn-copy-doc">
+                            <i class="fa-solid fa-copy"></i>
+                            <span data-i18n="edit_btn_copy">העתק מסמך</span>
+                        </button>
+                        <button class="btn btn-outline" id="btn-download-word">
+                            <i class="fa-solid fa-file-word"></i>
+                            <span data-i18n="edit_btn_word">הורד ל-Word</span>
+                        </button>
+                        <button class="btn btn-primary" id="btn-print-pdf">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span data-i18n="edit_btn_pdf">הדפס ל-PDF</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="workspace-split-pane">
+                    <!-- Left: Markdown Source Editor -->
+                    <div class="pane-editor card">
+                        <div class="pane-header">
+                            <span class="pane-title"><i class="fa-brands fa-markdown"></i> <span data-i18n="pane_editor_title">קוד מקור (Markdown)</span></span>
+                            <span class="pane-status-indicator" id="save-status-text" data-i18n="pane_saved">נשמר אוטומטית</span>
+                        </div>
+                        <textarea class="markdown-textarea" id="markdown-input-box" spellcheck="false" placeholder="קוד המרקדאון של מסמך הייזום ייטען כאן..."></textarea>
+                    </div>
+
+                    <!-- Right: Live Corporate Render Preview -->
+                    <div class="pane-preview card">
+                        <div class="pane-header">
+                            <span class="pane-title"><i class="fa-solid fa-eye"></i> <span data-i18n="pane_preview_title">תצוגה מקדימה מעוצבת</span></span>
+                        </div>
+                        <!-- Scrollable container for the formatted paper PID -->
+                        <div class="paper-preview-container" id="rendered-document-paper">
+                            <!-- Compiled in app.js -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- API Settings Modal -->
+    <div class="modal-overlay" id="modal-settings">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title" data-i18n="modal_settings_title"><i class="fa-solid fa-sliders"></i> הגדרות חיבור AI</h3>
+                <button class="btn-close-modal" id="btn-settings-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-help-text" data-i18n="modal_settings_desc">
+                    כדי שהאפליקציה תוכל לעבוד מול ה-AI, עליך להזין מפתח API של Google Gemini. המפתח נשמר בדפדפן שלך בלבד ולא נשלח לאף שרת חיצוני.
+                </p>
+
+                <div class="form-group">
+                    <label class="required-label" for="setting-api-key" data-i18n="modal_lbl_key">Gemini API Key</label>
+                    <div class="api-key-input-wrapper">
+                        <input type="password" id="setting-api-key" placeholder="AIzaSy...">
+                        <button class="btn-toggle-visibility" id="btn-toggle-key-visibility" type="button">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <span class="field-help"><a href="https://aistudio.google.com/" target="_blank" rel="noopener" data-i18n="modal_get_key">קבל מפתח API בחינם מ-Google AI Studio</a></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="setting-model-select" data-i18n="modal_lbl_model">מודל AI מועדף</label>
+                    <select id="setting-model-select">
+                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (מהיר וחסכוני - מומלץ)</option>
+                        <option value="gemini-2.5-pro">Gemini 2.5 Pro (איכות כתיבה מקסימלית)</option>
+                        <option value="gemini-1.5-flash">Gemini 1.5 Flash (גרסה קודמת)</option>
+                    </select>
+                </div>
+
+                <!-- API Status Alerts -->
+                <div class="api-status-banner warning" id="setting-api-status-warning">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span data-i18n="modal_status_warning">לא הוגדר מפתח API. האפליקציה תפעל ב"מצב הדגמה" (Mock Mode) עם תוכן מוכן מראש.</span>
+                </div>
+                <div class="api-status-banner success hidden" id="setting-api-status-success">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span data-i18n="modal_status_success">מפתח API הוגדר בהצלחה בזיכרון המקומי!</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="btn-settings-clear" data-i18n="modal_btn_clear">מחק מפתח</button>
+                <button class="btn btn-primary" id="btn-settings-save" data-i18n="modal_btn_save">שמור הגדרות</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Import -->
+    <script src="app.js"></script>
+</body>
+</html>

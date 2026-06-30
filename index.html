@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PID AI Generator - מחולל מסמכי ייזום פרויקט</title>
+    <!-- Google Fonts for Hebrew and English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-area" onclick="window.location.reload();">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">PID.AI</span>
+                    <span class="logo-badge">PRO</span>
+                </div>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#features" class="nav-link" data-i18n="nav_features">תכונות</a>
+                <a href="#how-it-works" class="nav-link" data-i18n="nav_how_it_works">איך זה עובד?</a>
+                <a href="#security" class="nav-link" data-i18n="nav_security">אבטחה ופרטיות</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="btn btn-icon" id="btn-toggle-lang" title="Toggle Language / שינוי שפה">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="btn-text">EN</span>
+                </button>
+                <button class="btn btn-icon" id="btn-toggle-theme" title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <a href="app.html" target="_blank" class="btn btn-primary" id="btn-launch-cta">
+                    <span data-i18n="nav_launch">כניסה למערכת</span>
+                    <i class="fa-solid fa-arrow-left arrow-icon"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- LANDING PAGE CONTENT -->
+    <main id="view-landing" style="padding-top: 70px;">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-bg-glow"></div>
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="badge-pill" data-i18n="hero_pill">
+                        <i class="fa-solid fa-star"></i> כלי ה-AI המוביל למנהלי פרויקטים ו-PMO
+                    </div>
+                    <h1 class="hero-title" id="hero-main-title">
+                        מסמך ייזום פרויקט (PID) <br><span class="gradient-text">מקצועי ומלא תוך דקות</span>
+                    </h1>
+                    <p class="hero-subtitle" data-i18n="hero_desc">
+                        הזן את נתוני הבסיס של הפרויקט שלך, ותן ל-AI של Gemini להרחיב, לעבות ולייצר עבורך מסמך ייזום (Sections 1–12) שלם, מקצועי ומנוסח היטב בהתאם לסטנדרטים המובילים.
+                    </p>
+                    <div class="hero-ctas">
+                        <a href="app.html" target="_blank" class="btn btn-primary btn-lg" id="btn-start-now">
+                            <span data-i18n="hero_cta_start">התחל עכשיו בחינם</span>
+                            <i class="fa-solid fa-arrow-left arrow-icon"></i>
+                        </a>
+                        <button class="btn btn-secondary btn-lg" id="btn-watch-demo">
+                            <i class="fa-solid fa-circle-play"></i>
+                            <span data-i18n="hero_cta_demo">צפה בהדגמה מהירה</span>
+                        </button>
+                    </div>
+                    <div class="hero-meta-benefits">
+                        <div class="benefit-item"><i class="fa-solid fa-circle-check"></i> <span data-i18n="hero_ben_1">ללא הרשמה</span></div>
+                        <div class="benefit-item"><i class="fa-solid fa-circle-check"></i> <span data-i18n="hero_ben_2">תמיכה מלאה בעברית ובאנגלית</span></div>
+                        <div class="benefit-item"><i class="fa-solid fa-circle-check"></i> <span data-i18n="hero_ben_3">ייצוא ישיר ל-Word ול-PDF</span></div>
+                    </div>
+                </div>
+
+                <!-- Beautiful Animated Mockup -->
+                <div class="hero-mockup-wrapper">
+                    <div class="hero-mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="mockup-address-bar">https://app.pid.ai/workspace</div>
+                        </div>
+                        <div class="mockup-content">
+                            <div class="mockup-sidebar">
+                                <div class="mockup-item active"></div>
+                                <div class="mockup-item"></div>
+                                <div class="mockup-item"></div>
+                            </div>
+                            <div class="mockup-body">
+                                <div class="mockup-steps">
+                                    <span class="mock-step active">1</span>
+                                    <span class="mock-line"></span>
+                                    <span class="mock-step">2</span>
+                                    <span class="mock-line"></span>
+                                    <span class="mock-step">3</span>
+                                </div>
+                                <div class="mockup-form-group">
+                                    <div class="mock-label" style="width: 40%"></div>
+                                    <div class="mock-input" style="height: 36px">שדרוג מערכת הליבה</div>
+                                </div>
+                                <div class="mockup-form-group">
+                                    <div class="mock-label" style="width: 60%"></div>
+                                    <div class="mock-textarea" style="height: 80px"></div>
+                                </div>
+                                <div class="mockup-footer">
+                                    <div class="mock-btn" style="width: 80px"></div>
+                                    <div class="mock-btn primary" style="width: 100px; margin-right: auto;">צור מסמך ייזום</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section class="section-container" id="features">
+            <h2 class="section-title" data-i18n="feat_title">למה להשתמש ב-PID AI Generator?</h2>
+            <p class="section-subtitle" data-i18n="feat_subtitle">פתרון שלם המיועד למנהלי פרויקטים שמחפשים יעילות, דיוק ומקצועיות ללא פשרות.</p>
+            
+            <div class="grid grid-3">
+                <div class="card feat-card">
+                    <div class="feat-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3 data-i18n="feat_ai_title">הרחבת AI מתקדמת</h3>
+                    <p data-i18n="feat_ai_desc">הזן רק 5 סעיפים בסיסיים, ומודל ה-AI החכם ישלים, ינסח ויעבה את שאר 12 הסעיפים כולל הערכת סיכונים, מטריצת אחריות (RACI), לוחות זמנים מוערכים ומדדי הצלחה.</p>
+                </div>
+                <div class="card feat-card">
+                    <div class="feat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 data-i18n="feat_sec_title">אבטחה מלאה ואירוח מקומי</h3>
+                    <p data-i18n="feat_sec_desc">הנתונים שלך והמפתחות שלך נשמרים בדפדפן האישי שלך בלבד (Local Storage). שום מידע עסקי רגיש לא נשמר בשרת חיצוני או נמכר הלאה.</p>
+                </div>
+                <div class="card feat-card">
+                    <div class="feat-icon"><i class="fa-solid fa-file-word"></i></div>
+                    <h3 data-i18n="feat_exp_title">ייצוא מושלם ל-Word ו-PDF</h3>
+                    <p data-i18n="feat_exp_desc">הורד את הקובץ כמסמך HTML עצמאי שנפתח ישירות ב-Word עם עיצוב וטבלאות מושלמים, או הדפס ישירות ל-PDF דרך הדפדפן בעימוד עסקי אלגנטי.</p>
+                </div>
+                <div class="card feat-card">
+                    <div class="feat-icon"><i class="fa-solid fa-language"></i></div>
+                    <h3 data-i18n="feat_lang_title">דו-לשוני מלא</h3>
+                    <p data-i18n="feat_lang_desc">תומך בכתיבה, ממשק ומסמכים סופיים בעברית או באנגלית, כולל התאמה אוטומטית של כיוון הטקסט (RTL/LTR) ומילון מונחי PMO מקצועי.</p>
+                </div>
+                <div class="card feat-card">
+                    <div class="feat-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <h3 data-i18n="feat_hist_title">שמירה אוטומטית והיסטוריה</h3>
+                    <p data-i18n="feat_hist_desc">העבודה שלך אף פעם לא תלך לאיבוד. האפליקציה שומרת את הטיוטות באופן אוטומטי ומאפשרת לך לחזור ולערוך מסמכים ישנים בכל עת.</p>
+                </div>
+                <div class="card feat-card">
+                    <div class="feat-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <h3 data-i18n="feat_edit_title">עורך Markdown מובנה</h3>
+                    <p data-i18n="feat_edit_desc">לאחר יצירת המסמך על ידי ה-AI, תוכל לערוך אותו בזמן אמת במסך מפוצל – ערוך קוד Markdown משמאל וראה את התצוגה המעוצבת מימין באופן מיידי.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it Works Section -->
+        <section class="section-container bg-alt" id="how-it-works">
+            <h2 class="section-title" data-i18n="how_title">איך זה עובד? ב-4 שלבים פשוטים</h2>
+            <div class="steps-flow">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h3 data-i18n="how_s1_title">מגדירים מפתח API</h3>
+                    <p data-i18n="how_s1_desc">מזינים מפתח Gemini API פעם אחת בהגדרות המאובטחות (או בוחרים במצב הדגמה כדי להתנסות).</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h3 data-i18n="how_s2_title">עונים על השאלון</h3>
+                    <p data-i18n="how_s2_desc">ממלאים אשף ידידותי וממוקד של 5 שלבים (פרטי פרויקט, רקע, מטרות, תכולות ומשאבים מוערכים).</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h3 data-i18n="how_s3_title">ה-AI מייצר ומעבה</h3>
+                    <p data-i18n="how_s3_desc">ה-AI מקבל את הקלט, מנסח אותו בצורה מקצועית ומשלים את 7 הסעיפים הנותרים של מסמך ה-Initiation.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h3 data-i18n="how_s4_title">עורכים ומייצאים</h3>
+                    <p data-i18n="how_s4_desc">עוברים על המסמך, מבצעים תיקונים בעורך החי ומייצאים לקובץ Word מעוצב או ל-PDF מוכן לחתימות.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security -->
+        <section class="section-container" id="security">
+            <div class="security-card">
+                <div class="security-content">
+                    <h2 data-i18n="sec_title"><i class="fa-solid fa-lock security-lock-icon"></i> אבטחת מידע ופרטיות מעל הכל</h2>
+                    <p data-i18n="sec_desc_1">במשרדי PMO ופרויקטים ארגוניים, סודיות המידע היא קריטית. מסיבה זו, האפליקציה פועלת באופן עצמאי לחלוטין בצד הלקוח (Client-Side Only).</p>
+                    <p data-i18n="sec_desc_2">מפתח ה-API שלך וכל הטיוטות והנתונים שאתה מזין נשמרים ישירות בזיכרון המקומי של הדפדפן שלך. הנתונים נשלחים אך ורק ישירות לשרתי ה-API הרשמיים של Google Gemini לשם עיבוד בלבד, ולא נרשמים באף בסיס נתונים אחר.</p>
+                    <div class="security-highlights">
+                        <span><i class="fa-solid fa-shield"></i> ללא שרת ביניים (Serverless)</span>
+                        <span><i class="fa-solid fa-database"></i> אחסון מקומי מוצפן בדפדפן</span>
+                        <span><i class="fa-solid fa-key"></i> מפתח ה-API שלך נשאר שלך</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="landing-footer">
+            <div class="container footer-container">
+                <div class="footer-brand">
+                    <i class="fa-solid fa-wand-magic-sparkles text-primary"></i> PID.AI
+                </div>
+                <p data-i18n="footer_rights">© 2026 PID AI Generator. כל הזכויות שמורות למנהלי פרויקטים יעילים.</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Demo Modal -->
+    <div class="modal-overlay" id="modal-demo">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <h3 class="modal-title" data-i18n="modal_demo_title"><i class="fa-solid fa-circle-play"></i> הדגמה מהירה של המערכת</h3>
+                <button class="btn-close-modal" id="btn-demo-close">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <p data-i18n="modal_demo_desc">צפה כיצד מנהלי פרויקטים מייצרים מסמכי ייזום בתוך 2 דקות:</p>
+                <div class="demo-placeholder-box">
+                    <i class="fa-solid fa-wand-magic-sparkles text-primary" style="font-size: 4rem; margin-bottom: 1.5rem;"></i>
+                    <h4>PID.AI PRO</h4>
+                    <p style="max-width: 400px; margin: 0 auto 1.5rem; color: var(--text-muted);">
+                        האפליקציה משתמשת בבינה מלאכותית יוצרת (Generative AI) כדי לעבות את נתוני הפרויקט ולבצע אינטגרציה מלאה לתוך תבנית ה-RACI והסיכונים הארגונית.
+                    </p>
+                    <a href="app.html" target="_blank" class="btn btn-primary" id="btn-demo-start-cta" data-i18n="modal_demo_btn_start">התחל לעבוד עכשיו</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Self-contained Script for Landing Page Language and Theme Toggles -->
+    <script>
+        const localTranslations = {
+            he: {
+                nav_features: "תכונות",
+                nav_how_it_works: "איך זה עובד?",
+                nav_security: "אבטחה ופרטיות",
+                nav_launch: "כניסה למערכת",
+                hero_pill: "<i class='fa-solid fa-star'></i> כלי ה-AI המוביל למנהלי פרויקטים ו-PMO",
+                hero_desc: "הזן את נתוני הבסיס של הפרויקט שלך, ותן ל-AI של Gemini להרחיב, לעבות ולייצר עבורך מסמך ייזום (Sections 1–12) שלם, מקצועי ומנוסח היטב בהתאם לסטנדרטים המובילים.",
+                hero_cta_start: "התחל עכשיו בחינם",
+                hero_cta_demo: "צפה בהדגמה מהירה",
+                hero_ben_1: "ללא הרשמה",
+                hero_ben_2: "תמיכה מלאה בעברית ובאנגלית",
+                hero_ben_3: "ייצוא ישיר ל-Word ול-PDF",
+                feat_title: "למה להשתמש ב-PID AI Generator?",
+                feat_subtitle: "פתרון שלם המיועד למנהלי פרויקטים שמחפשים יעילות, דיוק ומקצועיות ללא פשרות.",
+                feat_ai_title: "הרחבת AI מתקדמת",
+                feat_ai_desc: "הזן רק 5 סעיפים בסיסיים, ומודל ה-AI החכם ישלים, ינסח ויעבה את שאר 12 הסעיפים כולל הערכת סיכונים, מטריצת אחריות (RACI), לוחות זמנים מוערכים ומדדי הצלחה.",
+                feat_sec_title: "אבטחה מלאה ואירוח מקומי",
+                feat_sec_desc: "הנתונים שלך והמפתחות שלך נשמרים בדפדפן האישי שלך בלבד (Local Storage). שום מידע עסקי רגיש לא נשמר בשרת חיצוני או נמכר הלאה.",
+                feat_exp_title: "ייצוא מושלם ל-Word ו-PDF",
+                feat_exp_desc: "הורד את הקובץ כמסמך HTML עצמאי שנפתח ישירות ב-Word עם עיצוב וטבלאות מושלמים, או הדפס ישירות ל-PDF דרך הדפדפן בעימוד עסקי אלגנטי.",
+                feat_lang_title: "דו-לשוני מלא",
+                feat_lang_desc: "תומך בכתיבה, ממשק ומסמכים סופיים בעברית או באנגלית, כולל התאמה אוטומטית של כיוון הטקסט (RTL/LTR) ומילון מונחי PMO מקצועי.",
+                feat_hist_title: "שמירה אוטומטית והיסטוריה",
+                feat_hist_desc: "העבודה שלך אף פעם לא תלך לאיבוד. האפליקציה שומרת את הטיוטות באופן אוטומטי ומאפשרת לך לחזור ולערוך מסמכים ישנים בכל עת.",
+                feat_edit_title: "עורך Markdown מובנה",
+                feat_edit_desc: "לאחר יצירת המסמך על ידי ה-AI, תוכל לערוך אותו בזמן אמת במסך מפוצל – ערוך קוד Markdown משמאל וראה את התצוגה המעוצבת מימין באופן מיידי.",
+                how_title: "איך זה עובד? ב-4 שלבים פשוטים",
+                how_s1_title: "מגדירים מפתח API",
+                how_s1_desc: "מזינים מפתח Gemini API פעם אחת בהגדרות המאובטחות (או בוחרים במצב הדגמה כדי להתנסות).",
+                how_s2_title: "עונים על השאלון",
+                how_s2_desc: "ממלאים אשף ידידותי וממוקד של 5 שלבים (פרטי פרויקט, רקע, מטרות, תכולות ומשאבים מוערכים).",
+                how_s3_title: "ה-AI מייצר ומעבה",
+                how_s3_desc: "ה-AI מקבל את הקלט, מנסח אותו בצורה מקצועית ומשלים את 7 הסעיפים הנותרים של מסמך ה-Initiation.",
+                how_s4_title: "עורכים ומייצאים",
+                how_s4_desc: "עוברים על המסמך, מבצעים תיקונים בעורך החי ומייצאים לקובץ Word מעוצב או ל-PDF מוכן לחתימות.",
+                sec_title: "<i class='fa-solid fa-lock security-lock-icon'></i> אבטחת מידע ופרטיות מעל הכל",
+                sec_desc_1: "במשרדי PMO ופרויקטים ארגוניים, סודיות המידע היא קריטית. מסיבה זו, האפליקציה פועלת באופן עצמאי לחלוטין בצד הלקוח (Client-Side Only).",
+                sec_desc_2: "מפתח ה-API שלך וכל הטיוטות והנתונים שאתה מזין נשמרים ישירות בזיכרון המקומי של הדפדפן שלך. הנתונים נשלחים אך ורק ישירות לשרתי ה-API הרשמיים של Google Gemini לשם עיבוד בלבד, ולא נרשמים באף בסיס נתונים אחר.",
+                footer_rights: "© 2026 PID AI Generator. כל הזכויות שמורות למנהלי פרויקטים יעילים.",
+                modal_demo_title: "הדגמה מהירה של המערכת",
+                modal_demo_desc: "צפה כיצד מנהלי פרויקטים מייצרים מסמכי ייזום בתוך 2 דקות:",
+                modal_demo_btn_start: "התחל לעבוד עכשיו"
+            },
+            en: {
+                nav_features: "Features",
+                nav_how_it_works: "How it works?",
+                nav_security: "Security & Privacy",
+                nav_launch: "Launch App",
+                hero_pill: "<i class='fa-solid fa-star'></i> Leading AI Tool for PMs and PMOs",
+                hero_desc: "Enter your core project variables, and let our Gemini-powered AI expand, enrich, and write a professional 12-section Project Initiation Document (PID) tailored to global standards.",
+                hero_cta_start: "Get Started Free",
+                hero_cta_demo: "Watch Quick Demo",
+                hero_ben_1: "No Sign Up Required",
+                hero_ben_2: "Full Hebrew & English Support",
+                hero_ben_3: "Direct Export to Word & PDF",
+                feat_title: "Why use PID AI Generator?",
+                feat_subtitle: "A complete solution tailored for project managers seeking efficiency, precision, and executive quality.",
+                feat_ai_title: "Advanced AI Enrichment",
+                feat_ai_desc: "Provide only 5 basic sections, and our smart AI model completes and drafts the remaining sections including risks, RACI, timeline milestones, and success KPIs.",
+                feat_sec_title: "Fully Local & Secure",
+                feat_sec_desc: "Your data and API keys stay entirely in your personal browser's local storage. No sensitive business information is ever saved on third-party servers.",
+                feat_exp_title: "Perfect Export to Word & PDF",
+                feat_exp_desc: "Download as a standalone HTML file that opens perfectly in Microsoft Word, maintaining style and tables, or print directly to PDF in executive layout.",
+                feat_lang_title: "Fully Bilingual",
+                feat_lang_desc: "Supports inputs, interface language, and final document output in either Hebrew or English, with automatic text direction (RTL/LTR) adjustment.",
+                feat_hist_title: "Auto-save & History",
+                feat_hist_desc: "Never lose your work. The app automatically saves drafts locally, allowing you to return and edit your initiation documents at any point.",
+                feat_edit_title: "Live Markdown Editor",
+                feat_edit_desc: "After generating the PID, edit it instantly in a split-screen workspace – modify Markdown code on the left and see the styled layout on the right.",
+                how_title: "How does it work? In 4 Simple Steps",
+                how_s1_title: "Configure API Key",
+                how_s1_desc: "Add your Gemini API Key in the settings panel (or choose mock mode to experiment).",
+                how_s2_title: "Fill Questionnaire",
+                how_s2_desc: "Complete a focused 5-step wizard covering details, background, goals, scope, and resources.",
+                how_s3_title: "AI Generates & Enriches",
+                how_s3_desc: "AI processes inputs, drafts professional terminology, and fills in sections 6 to 12.",
+                how_s4_title: "Edit and Export",
+                how_s4_desc: "Review your document, perform adjustments in the live editor, and export to Word or PDF.",
+                sec_title: "<i class='fa-solid fa-lock security-lock-icon'></i> Information Security Above All",
+                sec_desc_1: "In PMO offices and corporate environments, information security is critical. Therefore, this tool is 100% serverless, running solely in your browser.",
+                sec_desc_2: "Your API key and all data inputs remain in your browser's local storage. They are sent directly to the official Google Gemini API endpoint for processing, never stored elsewhere.",
+                footer_rights: "© 2026 PID AI Generator. All rights reserved to efficient Project Managers.",
+                modal_demo_title: "Quick System Demonstration",
+                modal_demo_desc: "Watch how project managers write initiation documents in under 2 minutes:",
+                modal_demo_btn_start: "Launch Workspace Now"
+            }
+        };
+
+        let currentLang = "he";
+        let currentTheme = "light";
+
+        const btnLang = document.getElementById("btn-toggle-lang");
+        const btnTheme = document.getElementById("btn-toggle-theme");
+        const modalDemo = document.getElementById("modal-demo");
+        const btnWatchDemo = document.getElementById("btn-watch-demo");
+        const btnDemoClose = document.getElementById("btn-demo-close");
+
+        // Language toggle
+        btnLang.addEventListener("click", () => {
+            currentLang = currentLang === "he" ? "en" : "he";
+            document.body.dir = currentLang === "he" ? "rtl" : "ltr";
+            btnLang.querySelector(".btn-text").textContent = currentLang === "he" ? "EN" : "עב";
+            
+            if (currentLang === "he") {
+                document.body.classList.remove("lang-en");
+            } else {
+                document.body.classList.add("lang-en");
+            }
+
+            // Sync with local storage so app.html reads it
+            localStorage.setItem("pid_lang", currentLang);
+            updateDOMStrings();
+        });
+
+        // Theme toggle
+        btnTheme.addEventListener("click", () => {
+            currentTheme = currentTheme === "light" ? "dark" : "light";
+            if (currentTheme === "dark") {
+                document.body.classList.remove("light-theme");
+                document.body.classList.add("dark-theme");
+                btnTheme.innerHTML = `<i class="fa-solid fa-sun"></i>`;
+            } else {
+                document.body.classList.remove("dark-theme");
+                document.body.classList.add("light-theme");
+                btnTheme.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+            }
+            localStorage.setItem("pid_theme", currentTheme);
+        });
+
+        function updateDOMStrings() {
+            const dict = localTranslations[currentLang];
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                if (dict[key]) {
+                    el.innerHTML = dict[key];
+                }
+            });
+
+            document.getElementById("hero-main-title").innerHTML = currentLang === 'he' ? 
+                `מסמך ייזום פרויקט (PID) <br><span class="gradient-text">מקצועי ומלא תוך דקות</span>` :
+                `Write Professional <span class="gradient-text">Project PIDs in Minutes</span>`;
+        }
+
+        // Demo modal triggers
+        btnWatchDemo.addEventListener("click", () => modalDemo.classList.add("active"));
+        btnDemoClose.addEventListener("click", () => modalDemo.classList.remove("active"));
+    </script>
+</body>
+</html>
