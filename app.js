@@ -162,6 +162,7 @@ const translations = {
         edit_btn_copy: "העתק מסמך",
         edit_btn_word: "הורד ל-Word",
         edit_btn_pdf: "הדפס ל-PDF",
+        edit_btn_save_close: "שמור וצא ללוח הבקרה",
         pane_editor_title: "קוד מקור (Markdown)",
         pane_preview_title: "תצוגה מקדימה מעוצבת",
         pane_saved: "נשמר אוטומטית בדפדפן",
@@ -342,6 +343,7 @@ const translations = {
         edit_btn_copy: "Copy Document",
         edit_btn_word: "Download for Word",
         edit_btn_pdf: "Print to PDF",
+        edit_btn_save_close: "Save & Exit to Dashboard",
         pane_editor_title: "Source Code (Markdown)",
         pane_preview_title: "Formatted Preview",
         pane_saved: "Auto-saved in browser",
@@ -651,6 +653,17 @@ function setupEventListeners() {
     if (selectors.btnDownloadWord) selectors.btnDownloadWord.addEventListener("click", downloadWordDocument);
     if (selectors.btnPrintPdf) selectors.btnPrintPdf.addEventListener("click", printDocument);
     if (selectors.btnEditorBack) selectors.btnEditorBack.addEventListener("click", () => navigateToPanel("dashboard"));
+    
+    const btnSaveClose = document.getElementById("btn-save-close");
+    if (btnSaveClose) {
+        btnSaveClose.addEventListener("click", () => {
+            if (selectors.markdownInputBox) {
+                autoSaveCurrentMarkdown(selectors.markdownInputBox.value);
+            }
+            alert(state.lang === 'he' ? "המסמך נשמר בהצלחה בלוח הבקרה!" : "Document saved successfully to dashboard!");
+            navigateToPanel("dashboard");
+        });
+    }
     
     // Auto-compiling markdown in preview
     if (selectors.markdownInputBox) {
