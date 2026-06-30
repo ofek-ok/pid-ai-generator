@@ -144,6 +144,7 @@ const translations = {
         wiz_btn_cancel: "ביטול וחזרה",
         wiz_btn_next: "הבא",
         wiz_btn_generate: "צור מסמך ייזום פרויקט",
+        wiz_btn_save_draft: "שמור טיוטה וצא",
         
         // Processing Panel
         proc_title: "ה-AI יוצר את מסמך הייזום שלך...",
@@ -323,6 +324,7 @@ const translations = {
         wiz_btn_cancel: "Cancel",
         wiz_btn_next: "Next",
         wiz_btn_generate: "Generate PID Document",
+        wiz_btn_save_draft: "Save & Exit",
         
         // Processing Panel
         proc_title: "AI is creating your PID document...",
@@ -620,6 +622,14 @@ function setupEventListeners() {
     if (selectors.btnWizBack) selectors.btnWizBack.addEventListener("click", prevStep);
     if (selectors.btnWizNext) selectors.btnWizNext.addEventListener("click", nextStep);
     if (selectors.btnWizCancel) selectors.btnWizCancel.addEventListener("click", () => navigateToPanel("dashboard"));
+    const btnWizSaveDraft = document.getElementById("btn-wizard-save-draft");
+    if (btnWizSaveDraft) {
+        btnWizSaveDraft.addEventListener("click", () => {
+            saveFormDraft();
+            alert(translations[state.lang].msg_draft_saved);
+            navigateToPanel("dashboard");
+        });
+    }
     
     // Dynamic List Builders (Scope)
     if (selectors.btnAddInScope) selectors.btnAddInScope.addEventListener("click", addInScopeItem);
@@ -1063,6 +1073,7 @@ function getFormDataObject() {
         
         markdown: selectors.markdownInputBox ? selectors.markdownInputBox.value : "",
         status: 'draft',
+        currentStep: state.currentStep,
         updatedAt: Date.now()
     };
 }
@@ -1139,7 +1150,7 @@ function loadDraftIntoWizard(id) {
         updateDocumentPreview(draft.markdown);
         navigateToPanel("editor");
     } else {
-        state.currentStep = 1;
+        state.currentStep = draft.currentStep || 1;
         navigateToPanel("wizard");
         updateWizardStepDOM();
     }
